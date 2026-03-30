@@ -9,7 +9,7 @@ terraform {
 
 provider "google" {
   project = var.project_id
-  region  = "europe-west1"
+  region  = var.region
 }
 
 resource "google_compute_instance" "vm" {
@@ -30,7 +30,6 @@ resource "google_compute_instance" "vm" {
     access_config {}
   }
 
-
   labels = {
     student = var.student_id
     course  = "devsecops-2026"
@@ -44,7 +43,6 @@ resource "google_compute_instance" "vm" {
       metadata,
       metadata_startup_script,
       labels
-
     ]
   }
 }
