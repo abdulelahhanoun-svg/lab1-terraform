@@ -56,7 +56,7 @@ jobs:
           gcloud config list account
 
       - name: Terraform Init
-            run: terraform init -input=false
+             run: terraform init -input=false
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
