@@ -30,7 +30,6 @@ resource "google_compute_instance" "vm" {
     access_config {}
   }
 
-  metadata_startup_script = file("startup.sh")
 
   labels = {
     student = var.student_id
@@ -39,29 +38,13 @@ resource "google_compute_instance" "vm" {
   }
 
   tags = ["lab1", "ssh"]
-}
 
-resource "google_compute_resource_policy" "daily_backup" {
-  name   = "${var.student_id}-daily-backup-4"
-  region = var.region
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      metadata_startup_script,
+      labels
 
-  snapshot_schedule_policy {
-    schedule {
-      daily_schedule {
-        days_in_cycle = 1
-        start_time    = "03:00"
-      }
-    }
-
-    retention_policy {
-      max_retention_days    = 7
-      on_source_disk_delete = "KEEP_AUTO_SNAPSHOTS"
-    }
+    ]
   }
-}
-
-resource "google_compute_disk_resource_policy_attachment" "backup_attachment" {
-  name = google_compute_resource_policy.daily_backup.name
-  disk = google_compute_instance.vm.name
-  zone = "europe-west1-b"
 }
