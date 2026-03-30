@@ -9,14 +9,13 @@ terraform {
 
 provider "google" {
   project = var.project_id
-  region  = var.region
+  region  = "europe-west1"
 }
 
-
 resource "google_compute_instance" "vm" {
-  name         = "${lower(var.student_id)}-lab1-vm"
+  name         = "${var.student_id}-lab1-vm"
   machine_type = "e2-micro"
-  zone         = "${var.region}-a"
+  zone         = "europe-west1-a"
 
   boot_disk {
     initialize_params {
@@ -34,7 +33,7 @@ resource "google_compute_instance" "vm" {
   metadata_startup_script = file("startup.sh")
 
   labels = {
-    student = lower(var.student_id)
+    student = var.student_id
     course  = "devsecops-2026"
     lab     = "1"
   }
@@ -42,10 +41,9 @@ resource "google_compute_instance" "vm" {
   tags = ["lab1", "ssh"]
 }
 
-
 resource "google_compute_resource_policy" "daily_backup" {
-  name   = "${lower(var.student_id)}-daily-backup-3"
-  region = var.region
+  name   = "${var.student_id}-daily-backup-3"
+  region = "europe-west1"
 
   snapshot_schedule_policy {
     schedule {
@@ -62,9 +60,8 @@ resource "google_compute_resource_policy" "daily_backup" {
   }
 }
 
-
 resource "google_compute_disk_resource_policy_attachment" "backup_attachment" {
   name = google_compute_resource_policy.daily_backup.name
   disk = google_compute_instance.vm.name
-  zone = "${var.region}-a"
+  zone = "europe-west1-a"
 }
