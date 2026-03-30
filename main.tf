@@ -44,7 +44,7 @@ resource "google_compute_instance" "vm" {
 
 
 resource "google_compute_resource_policy" "daily_backup" {
-  name   = "${lower(var.student_id)}-daily-backup-2"
+name = "${lower(var.student_id)}-daily-backup-3"
   region = var.region
 
   snapshot_schedule_policy {
