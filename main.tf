@@ -9,7 +9,7 @@ terraform {
 
 provider "google" {
   project = var.project_id
-  region  = "europe-west1-b"
+  region  = "europe-west1"
 }
 
 resource "google_compute_instance" "vm" {
@@ -42,8 +42,8 @@ resource "google_compute_instance" "vm" {
 }
 
 resource "google_compute_resource_policy" "daily_backup" {
-  name   = "${var.student_id}-daily-backup-3"
-  region = "europe-west1"
+  name   = "${var.student_id}-daily-backup-4"
+  region = var.region
 
   snapshot_schedule_policy {
     schedule {
