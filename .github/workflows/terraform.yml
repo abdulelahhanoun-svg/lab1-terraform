@@ -49,6 +49,12 @@ jobs:
         with:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
+      
+      - name: Debug Service Account
+        run: |
+          gcloud auth list
+          gcloud config list account
+
       - name: Terraform Init
         run: terraform init
 
