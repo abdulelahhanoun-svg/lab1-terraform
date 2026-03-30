@@ -9,13 +9,13 @@ terraform {
 
 provider "google" {
   project = var.project_id
-  region  = "europe-west1"
+  region  = "europe-west1-b"
 }
 
 resource "google_compute_instance" "vm" {
   name         = "${var.student_id}-lab1-vm"
   machine_type = "e2-micro"
-  zone         = "europe-west1-a"
+  zone         = "europe-west1-b"
 
   boot_disk {
     initialize_params {
