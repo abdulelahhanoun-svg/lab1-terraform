@@ -7,7 +7,6 @@ on:
     branches: [main]
 
 jobs:
-
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -39,7 +38,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [lint, security, validate]
-
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
@@ -49,19 +47,16 @@ jobs:
         run: echo "${{ secrets.GCP_CREDENTIALS_BASE64 }}" | base64 -d > gcp-sa-key.json
 
       
-      - name: Debug Auth
-        run: cat gcp-sa-key.json | head -n 5
+      - name: Check credentials
+        run: head -n 5 gcp-sa-key.json
 
       
       - name: Terraform Init
         run: terraform init -input=false -reconfigure
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: gcp-sa-key.json
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: gcp-sa-key.json
           TF_VAR_project_id: "chas-devsecops-2026"
           TF_VAR_region: "europe-west1"
           TF_VAR_student_id: "abdulelah-hanoun"
