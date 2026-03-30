@@ -56,11 +56,11 @@ jobs:
           gcloud config list account
 
       - name: Terraform Init
-        run: terraform init
+            run: terraform init -input=false
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
           TF_VAR_project_id: "chas-devsecops-2026"
-          TF_VAR_region: "europe-west1-b"
+          TF_VAR_region: "europe-west1"
           TF_VAR_student_id: "abdulelah-hanoun"
