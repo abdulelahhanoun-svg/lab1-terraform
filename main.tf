@@ -5,11 +5,6 @@ terraform {
       version = "~> 5.0"
     }
   }
-  backend "gcs" {
-    bucket = "chas-tf-state-the-hole"
-    prefix = "terraform/state"
-    # بدون credentials، رح يستخدم Application Default Credentials تلقائيًا
-  }
 }
 
 provider "google" {
