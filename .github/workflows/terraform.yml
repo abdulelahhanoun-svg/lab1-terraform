@@ -1,4 +1,4 @@
-name: Terraform CI
+name: Terraform CI/CD
 
 on:
   push:
@@ -43,21 +43,13 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
 
       
-      - name: Decode GCP credentials
-        run: |
-          echo "${{ secrets.GCP_CREDENTIALS_BASE64 }}" | base64 --decode > gcp-sa-key.json
-          head -n 5 gcp-sa-key.json
-
-      
       - uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS_BASE64 }}
 
-      
       - name: Terraform Init
         run: terraform init -input=false -reconfigure
 
-      
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
